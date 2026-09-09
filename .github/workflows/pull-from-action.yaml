@@ -25,7 +25,8 @@ jobs:
         environment: ${{ inputs.environment }}
         steps:
           - name: Pull from Ganymede
-            uses: ganymede-bio/flow-pull-action@v2.1.0
+            id: pull
+            uses: ganymede-bio/flow-pull-action@feat/PORT-1714-v2-commits-protocol
             with:
                 environment: ${{ vars.GANYMEDE_ENVIRONMENT }}
                 ganymede_subdomain: ${{ vars.GANYMEDE_SUBDOMAIN }}
@@ -33,6 +34,9 @@ jobs:
                 flow_name: ${{ inputs.flowName }}
                 zip_directory: ${{ inputs.environment }}
                 include_lib_files: "true"
+
+          - name: Store Ganymede HEAD SHA
+            run: echo "${{ steps.pull.outputs.head_sha }}" > .ganymede-sha-${{ inputs.environment }}
 
           - name: Commit changes
             id: commit
