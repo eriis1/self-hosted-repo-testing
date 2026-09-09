@@ -1,0 +1,63 @@
+name: Pull from Ganymede Action
+
+on:
+    workflow_dispatch:
+        inputs:
+            environment:
+                description: 'Environment to pull from Ganymede'
+                required: true
+                type: choice
+                options:
+                - dev
+                - prod
+                default: dev
+            flowName:
+                description: 'Flow name to pull from Ganymede (optional, pulls all if not specified)'
+                required: false
+            
+env:
+    github_username: ENVIRONMENT-sync # REPLACE
+    github_email: ENVIRONMENT@YOUR_COMPANY # REPLACE 
+
+jobs:
+    detect-flow-changes:
+        runs-on: ubuntu-latest
+        environment: ${{ inputs.environment }}
+        steps:
+          - name: Pull from Ganymede
+            uses: ganymede-bio/flow-pull-action@v2.1.0
+            with:
+                environment: ${{ vars.GANYMEDE_ENVIRONMENT }}
+                ganymede_subdomain: ${{ vars.GANYMEDE_SUBDOMAIN }}
+                ganymede_api_token: ${{ secrets.GANYMEDE_API_TOKEN }}
+                flow_name: ${{ inputs.flowName }}
+                zip_directory: ${{ inputs.environment }}
+                include_lib_files: "true"
+
+          - name: Commit changes
+            id: commit
+            run: |
+                git config --global user.name "$github_username"
+                git config --global user.email "$github_email"
+                git add .
+                git commit -m "Sync flows in environment ${{ inputs.environment }} from Ganymede"
+            continue-on-error: true
+
+          - name: Create branch name with date
+            id: branch_name
+            run: |
+              CURRENT_DATE=$(date '+%Y-%m-%d-%H-%M-%S')
+              echo "BRANCH_NAME=sync-${CURRENT_DATE}" >> $GITHUB_ENV
+
+          - name: Create Pull Request
+            if: steps.commit.outcome == 'success'
+            uses: peter-evans/create-pull-request@v5
+            with:
+                title: "Sync flows in environment ${{ inputs.environment }} from Ganymede"
+                commit-message: "Sync flows in environment ${{ inputs.environment }} from Ganymede"
+                body: |
+                    This PR contains latest files from Ganymede.
+                    
+                    Automated PR created by the pull from ganymede workflow.
+                branch: ${{ env.BRANCH_NAME }}
+                base: main
