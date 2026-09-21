@@ -24,6 +24,7 @@ def execute(csv_file: dict[str, BytesIO], ganymede_context: GanymedeContext) -> 
     """
 
     print("TESTING REPO SYNC")
+    print("TESTING REPO SYNC STALE LOCAL")
 
     results_dict = dict()
 
