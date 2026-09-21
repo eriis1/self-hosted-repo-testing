@@ -1,0 +1,15 @@
+from ganymede_sdk.agent.models import FileParam, UploadFileParams
+
+
+# Required Function
+def execute(**kwargs) -> UploadFileParams:
+    filename = "changeme.csv"
+    body = bytes("Hello mooon!", "utf-8")
+
+    new_file_param = FileParam(
+        filename=filename,
+        body=body,
+    )
+
+    return UploadFileParams(files=[new_file_param])
+
