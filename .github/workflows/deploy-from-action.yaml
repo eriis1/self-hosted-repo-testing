@@ -1,4 +1,4 @@
-name: Deploy Changed Flows to Ganymede From Action
+name: Deploy to Ganymede
 
 on:
     workflow_dispatch:
