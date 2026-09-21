@@ -5,7 +5,7 @@ import os
 import re
 from urllib import parse
 
-from agent_sdk import FileParam, FileWatcherResult, TriggerFlowParams
+from agent_sdk import FileParam, FileWatcherResult, TriggerFlowParams, info
 
 
 def fp(watch_dir: str, parent_dir: str, pattern: str) -> Callable[[str], bool]:
@@ -79,6 +79,8 @@ def execute(flow_params_fw: FileWatcherResult, **kwargs) -> TriggerFlowParams | 
 
     single_file_param_key = "CSV_Read.csv"
     multi_file_param_key = "XML_Read.xml"
+
+    info("REPO SYNC TESTING")
 
     params = TriggerFlowParams()
 
