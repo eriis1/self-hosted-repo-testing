@@ -1,0 +1,1 @@
+SELECT * FROM trigger_input_test;

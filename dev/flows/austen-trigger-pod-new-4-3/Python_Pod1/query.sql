@@ -1,0 +1,1 @@
+SELECT * FROM (SELECT "sample1", "query1"); SELECT * FROM (SELECT "sample2", "query2");

@@ -1,0 +1,1 @@
+SELECT * FROM `test_prod_mode_generated_data`;

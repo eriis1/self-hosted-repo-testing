@@ -1,0 +1,1 @@
+SELECT * FROM plate_reader_results

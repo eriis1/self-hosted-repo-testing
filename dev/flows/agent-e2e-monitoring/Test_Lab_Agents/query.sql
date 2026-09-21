@@ -1,0 +1,1 @@
+SELECT connection_id, connection_name FROM agent_e2e_monitoring_Test_Lab_Connections
