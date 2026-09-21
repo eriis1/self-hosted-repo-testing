@@ -23,6 +23,8 @@ def execute(csv_file: dict[str, BytesIO], ganymede_context: GanymedeContext) -> 
         Object containing data to store in data lake and/or file storage.
     """
 
+    print("TESTING REPO SYNC")
+
     results_dict = dict()
 
     if len(csv_file) > 1:
