@@ -24,6 +24,7 @@ def execute(csv_file: dict[str, BytesIO], ganymede_context: GanymedeContext) -> 
     """
 
     results_dict = dict()
+    print("REPO SYNC TESTING")
 
     if len(csv_file) > 1:
         for filename, file_contents in csv_file.items():
