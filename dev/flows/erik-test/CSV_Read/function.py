@@ -24,7 +24,7 @@ def execute(csv_file: dict[str, BytesIO], ganymede_context: GanymedeContext) -> 
     """
 
     print("TESTING REPO SYNC")
-    print("TESTING REPO SYNC STALE LOCAL")
+    print("TESTING REPO SYNC STALE")
 
     results_dict = dict()
 
@@ -35,4 +35,5 @@ def execute(csv_file: dict[str, BytesIO], ganymede_context: GanymedeContext) -> 
         return NodeReturn(tables_to_upload={"results": pd.read_csv(list(csv_file.values()).pop())})
 
     return NodeReturn(tables_to_upload=results_dict)
+
 
