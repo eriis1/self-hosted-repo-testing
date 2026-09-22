@@ -26,7 +26,7 @@ jobs:
         steps:
           - name: Pull from Ganymede
             id: pull
-            uses: ganymede-bio/flow-pull-action@feat/PORT-1714-v2-commits-protocol
+            uses: ganymede-bio/flow-pull-action@v2.2.0
             with:
                 environment: ${{ vars.GANYMEDE_ENVIRONMENT }}
                 ganymede_subdomain: ${{ vars.GANYMEDE_SUBDOMAIN }}
