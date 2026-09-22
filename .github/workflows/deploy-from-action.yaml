@@ -34,7 +34,7 @@ jobs:
               fi
 
           - name: Commit to Ganymede
-            uses: ganymede-bio/flow-commit-action@feat/PORT-1714-v2-commits-protocol
+            uses: ganymede-bio/flow-commit-action@v2.0.0
             with:
                 environment: ${{ inputs.environment }}
                 ganymede_environment: ${{ vars.GANYMEDE_ENVIRONMENT }}
