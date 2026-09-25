@@ -32,3 +32,5 @@ def execute(csv_file: dict[str, BytesIO], ganymede_context: GanymedeContext) -> 
         return NodeReturn(tables_to_upload={"results": pd.read_csv(list(csv_file.values()).pop())})
 
     return NodeReturn(tables_to_upload=results_dict)
+
+# anchor-test B 161052
