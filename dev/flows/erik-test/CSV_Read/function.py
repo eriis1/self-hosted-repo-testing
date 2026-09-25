@@ -23,6 +23,8 @@ def execute(csv_file: dict[str, BytesIO], ganymede_context: GanymedeContext) -> 
         Object containing data to store in data lake and/or file storage.
     """
 
+    print("Hello")
+
     results_dict = dict()
 
     if len(csv_file) > 1:
@@ -32,5 +34,6 @@ def execute(csv_file: dict[str, BytesIO], ganymede_context: GanymedeContext) -> 
         return NodeReturn(tables_to_upload={"results": pd.read_csv(list(csv_file.values()).pop())})
 
     return NodeReturn(tables_to_upload=results_dict)
+
 
 
