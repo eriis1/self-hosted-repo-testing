@@ -27,6 +27,7 @@ jobs:
         environment: ${{ inputs.environment || 'dev' }}
         permissions:
             contents: write
+            pull-requests: write
         steps:
           - name: Checkout code
             uses: actions/checkout@v4
@@ -62,6 +63,7 @@ jobs:
             env:
                 COMMIT_SHA: ${{ steps.ganymede-commit.outputs.commit-sha }}
                 DEPLOY_ENV: ${{ inputs.environment }}
+                GH_TOKEN: ${{ github.token }}
             run: |
               # The SHA is interpolated into a commit message, so validate it is
               # a git object SHA and nothing else.
@@ -82,4 +84,20 @@ jobs:
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
               git add "$SHA_FILE"
               git commit -m "chore: record Ganymede HEAD $COMMIT_SHA for $DEPLOY_ENV"
-              git push origin "HEAD:$GITHUB_REF_NAME"
+
+              if git push origin "HEAD:$GITHUB_REF_NAME"; then
+                echo "Recorded HEAD on $GITHUB_REF_NAME."
+                exit 0
+              fi
+
+              # Branch protection blocks the direct push. Open a PR so the value
+              # is never lost -- but the next deploy is still rejected as stale
+              # until that PR is merged.
+              echo "Direct push rejected; opening a pull request instead."
+              PR_BRANCH="record-ganymede-sha-$DEPLOY_ENV-$GITHUB_RUN_ID"
+              git push origin "HEAD:$PR_BRANCH"
+              gh pr create \
+                --base "$GITHUB_REF_NAME" \
+                --head "$PR_BRANCH" \
+                --title "chore: record Ganymede HEAD for $DEPLOY_ENV" \
+                --body "Deploy run $GITHUB_RUN_ID advanced Ganymede's HEAD to \`$COMMIT_SHA\`. Merge this to keep \`$SHA_FILE\` current -- the next deploy is rejected as stale until you do."
