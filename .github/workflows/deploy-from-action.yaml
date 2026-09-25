@@ -44,7 +44,7 @@ jobs:
 
           - name: Commit to Ganymede
             id: ganymede-commit
-            uses: ganymede-bio/flow-commit-action@fix/PORT-1714-deploy-sha-writeback
+            uses: ganymede-bio/flow-commit-action@v2.1.0
             with:
                 environment: ${{ inputs.environment }}
                 ganymede_environment: ${{ vars.GANYMEDE_ENVIRONMENT }}
